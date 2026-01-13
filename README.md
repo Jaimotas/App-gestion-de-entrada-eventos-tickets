@@ -1,1 +1,1 @@
-# App-gesti-n-de-entrada-eventos-tickets-
+# App-gestion-de-entrada-eventos-tickets
