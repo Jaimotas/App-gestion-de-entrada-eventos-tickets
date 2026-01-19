@@ -12,6 +12,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tickets4U">
 
+        <!-- Carrito -->
+        <activity
+            android:name=".ui.cart.CartActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+
+        <!-- Pago -->
+        <activity
+            android:name=".eventos.ui.payment.PaymentActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+        <activity
+            android:name=".eventos.ui.payment.PaymentSuccessActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+
+
         <activity
             android:name=".DatosDeEventoActivity"
             android:exported="false" />
