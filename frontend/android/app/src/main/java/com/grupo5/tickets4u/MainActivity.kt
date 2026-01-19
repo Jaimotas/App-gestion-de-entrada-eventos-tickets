@@ -1,17 +1,45 @@
 package com.grupo5.tickets4u
 
 import android.os.Bundle
+import android.view.MenuItem
+import androidx.appcompat.app.ActionBarDrawerToggle
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var internacionalesRecycler: RecyclerView
+    private lateinit var actualesRecycler: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // TOOLBAR
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
+        // DRAWER
+        drawerLayout = findViewById(R.id.drawer_layout)
+        val navView: NavigationView = findViewById(R.id.nav_view)
+        navView.setNavigationItemSelectedListener { item: MenuItem ->
+            drawerLayout.closeDrawer(GravityCompat.START)
+            true
+        }
+
+        val toggle = ActionBarDrawerToggle(
+            this, drawerLayout, toolbar,
+            R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        )
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
 
         // 1. Eventos destacados (3, vertical)
         val destacadosRecycler = findViewById<RecyclerView>(R.id.eventos_recyclerview)
@@ -19,25 +47,30 @@ class MainActivity : AppCompatActivity() {
         destacadosRecycler.adapter = EventAdapter(createFeaturedEvents())
 
         // 2. Eventos actuales (4 artistas urbanos, horizontal)
-        val actualesRecycler = findViewById<RecyclerView>(R.id.eventos_actuales_recyclerview)
+        actualesRecycler = findViewById(R.id.eventos_actuales_recyclerview)
         actualesRecycler.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         actualesRecycler.adapter = EventAdapter(createCurrentEvents())
 
         // 3. Eventos internacionales (horizontal, como los actuales)
-        val internacionalesRecycler = findViewById<RecyclerView>(R.id.mas_eventos_recyclerview)
+        internacionalesRecycler = findViewById(R.id.mas_eventos_recyclerview)
         internacionalesRecycler.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         internacionalesRecycler.adapter = EventAdapter(createInternationalEvents())
 
-        // FLECHA DE "Eventos actuales"
-        val arrowEventosActuales = findViewById<ImageView>(R.id.arrow_eventos_actuales)
-        arrowEventosActuales.setOnClickListener {
-            Toast.makeText(this, "Próximamente más eventos", Toast.LENGTH_SHORT).show()
-            // Si quieres que además haga scroll:
-            // actualesRecycler.smoothScrollBy(400, 0)
+        // FLECHAS (comentar hasta que el XML tenga los IDs)
+
+        findViewById<ImageView>(R.id.arrow_eventos_actuales).setOnClickListener {
+            actualesRecycler.smoothScrollBy(400, 0)
         }
+
+        findViewById<ImageView>(R.id.arrow_eventos_internacionales).setOnClickListener {
+            internacionalesRecycler.smoothScrollBy(400, 0)
+        }
+
+
     }
+
 
     // 3 eventos destacados (los 3 en tendencia)
     private fun createFeaturedEvents(): List<Event> =
@@ -47,7 +80,7 @@ class MainActivity : AppCompatActivity() {
                 name = "Concierto Estopa",
                 location = "WiZink Center · Madrid",
                 date = "10 Mar 2026 · 21:00",
-                imageResId = R.mipmap.ic_launcher_round,
+                imageResId = R.drawable.estopa,
                 isTrending = true
             ),
             Event(
@@ -55,15 +88,15 @@ class MainActivity : AppCompatActivity() {
                 name = "Mad Cool Festival",
                 location = "IFEMA · Madrid",
                 date = "15 Jul 2026 · 18:00",
-                imageResId = R.mipmap.ic_launcher_round,
+                imageResId = R.drawable.madcool,
                 isTrending = true
             ),
             Event(
                 id = 3,
-                name = "Obra de teatro clásico",
+                name = "La Brama del Cèrvol",
                 location = "Teatro Principal · Barcelona",
                 date = "20 Feb 2026 · 20:00",
-                imageResId = R.mipmap.ic_launcher_round,
+                imageResId = R.drawable.la_brama_del_cervol,
                 isTrending = true
             )
         )
@@ -76,29 +109,29 @@ class MainActivity : AppCompatActivity() {
                 name = "Anuel AA – Las Leyendas Nunca Mueren Tour",
                 location = "Palacio Vistalegre · Madrid",
                 date = "05 Abr 2026 · 21:00",
-                imageResId = R.mipmap.ic_launcher_round,
+                imageResId = R.drawable.anuel,
                 isTrending = true
             ),
             Event(
                 id = 102,
-                name = "Eladio Carrión – Sauce Boyz Live",
+                name = "Eladio Carrión – DON KBRON ",
                 location = "WiZink Center · Madrid",
-                date = "20 Abr 2026 · 21:30",
-                imageResId = R.mipmap.ic_launcher_round
+                date = "28 Enero 2026 · 21:30",
+                imageResId = R.drawable.eladio
             ),
             Event(
                 id = 103,
                 name = "DEIV – Tour Europa",
                 location = "La Riviera · Madrid",
                 date = "12 May 2026 · 20:30",
-                imageResId = R.mipmap.ic_launcher_round
+                imageResId = R.drawable.deiv
             ),
             Event(
                 id = 104,
-                name = "Myke Towers – La Vida es Una Tour",
+                name = "Maluma – La Vida es Una Tour",
                 location = "Palau Sant Jordi · Barcelona",
                 date = "25 May 2026 · 21:00",
-                imageResId = R.mipmap.ic_launcher_round
+                imageResId = R.drawable.maluma
             )
         )
 
@@ -110,7 +143,7 @@ class MainActivity : AppCompatActivity() {
                 name = "Bruno Mars – World Tour",
                 location = "Wembley Stadium · Londres",
                 date = "10 Ago 2026 · 20:00",
-                imageResId = R.mipmap.ic_launcher_round,
+                imageResId = R.drawable.bruno,
                 isTrending = true
             ),
             Event(
@@ -118,7 +151,7 @@ class MainActivity : AppCompatActivity() {
                 name = "The Weeknd – After Hours Til Dawn",
                 location = "Accor Arena · París",
                 date = "18 Ago 2026 · 21:00",
-                imageResId = R.mipmap.ic_launcher_round,
+                imageResId = R.drawable.the_weekend,
                 isTrending = true
             ),
             Event(
@@ -126,14 +159,14 @@ class MainActivity : AppCompatActivity() {
                 name = "Coldplay – Music of the Spheres",
                 location = "Allianz Parque · São Paulo",
                 date = "05 Sep 2026 · 20:30",
-                imageResId = R.mipmap.ic_launcher_round
+                imageResId = R.drawable.coldplay
             ),
             Event(
                 id = 204,
                 name = "Dua Lipa – Future Nostalgia Tour",
                 location = "Madison Square Garden · Nueva York",
                 date = "20 Sep 2026 · 21:00",
-                imageResId = R.mipmap.ic_launcher_round
+                imageResId = R.drawable.dua_lipa
             )
         )
 }
