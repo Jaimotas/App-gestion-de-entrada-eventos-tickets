@@ -13,11 +13,11 @@
         android:theme="@style/Theme.Tickets4U">
 
         <activity
-            android:name=".PaginaCompraActivity"
+            android:name=".DatosDeEventoActivity"
             android:exported="false" />
 
         <activity
-            android:name=".DatosDeEventoActivity"
+            android:name=".PaginaCompraActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
