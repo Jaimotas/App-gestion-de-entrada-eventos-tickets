@@ -1,5 +1,6 @@
 package com.grupo5.tickets4u
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -53,7 +54,14 @@ class MainActivity : AppCompatActivity() {
         drawerLayout.addDrawerListener(toggle)
         toggle.drawerArrowDrawable.color = getColor(android.R.color.white)
 
+        // LISTENER ACTUALIZADO (SIN nav_perfil)
         navView.setNavigationItemSelectedListener { item: MenuItem ->
+            when(item.itemId) {
+                R.id.nav_home -> { }
+                R.id.nav_tickets -> { }
+                R.id.nav_settings -> { }
+                R.id.nav_help -> { }
+            }
             drawerLayout.closeDrawer(GravityCompat.START)
             true
         }
