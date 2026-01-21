@@ -28,18 +28,17 @@ class EventAdapter(private val events: List<Event>) :
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         val event = events[position]
-        holder.name.text = event.name
-        holder.location.text = "${event.location} · ${event.city}"
-        holder.date.text = event.date
+        holder.name.text = event.nombre        // Antes era name
+        holder.location.text = event.ubicacion // Antes era location
+        holder.date.text = event.fechaInicio   // Antes era date
 
-        // USANDO GLIDE PARA CARGAR LA URL DEL BACKEND
         Glide.with(holder.itemView.context)
-            .load(event.imageUrl)
-            .placeholder(android.R.drawable.ic_menu_gallery) // Imagen mientras carga
-            .error(android.R.drawable.stat_notify_error)     // Imagen si falla
+            .load(event.foto)                  // Antes era imageUrl o imageResId
+            .placeholder(android.R.drawable.ic_menu_gallery)
             .into(holder.image)
 
-        holder.trendingBadge.visibility = if (position < 2) View.VISIBLE else View.GONE
+        // El badge de trending ahora lo podrías mostrar si la categoría es DESTACADO
+        holder.trendingBadge.visibility = if (event.categoria == "DESTACADO") View.VISIBLE else View.GONE
     }
 
     override fun getItemCount(): Int = events.size

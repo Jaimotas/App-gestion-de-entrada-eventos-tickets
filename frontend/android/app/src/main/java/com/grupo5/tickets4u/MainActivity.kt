@@ -1,10 +1,8 @@
 package com.grupo5.tickets4u
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
-import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -16,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -35,8 +34,18 @@ class MainActivity : AppCompatActivity() {
         setupToolbarAndDrawer()
         setupRecyclerViews()
 
-        // Llamada al backend
+        // Llamada inicial al backend
         fetchEventos()
+
+        // Configuración del botón flotante para crear eventos
+        val fab: FloatingActionButton = findViewById(R.id.fabAddEvent)
+        fab.setOnClickListener {
+            val dialog = CrearEventoDialogFragment(onEventoCreado = {
+                // Se ejecuta cuando el servidor responde con éxito (201 Created)
+                fetchEventos()
+            })
+            dialog.show(supportFragmentManager, "CrearEventoDialog")
+        }
     }
 
     private fun setupToolbarAndDrawer() {
@@ -54,19 +63,18 @@ class MainActivity : AppCompatActivity() {
         drawerLayout.addDrawerListener(toggle)
         toggle.drawerArrowDrawable.color = getColor(android.R.color.white)
 
-        // LISTENER ACTUALIZADO (SIN nav_perfil)
         navView.setNavigationItemSelectedListener { item: MenuItem ->
             when(item.itemId) {
-                R.id.nav_home -> { }
-                R.id.nav_tickets -> { }
-                R.id.nav_settings -> { }
-                R.id.nav_help -> { }
+                R.id.nav_home -> { fetchEventos() }
+                R.id.nav_tickets -> { /* Ir a mis tickets */ }
+                R.id.nav_settings -> { /* Configuración */ }
+                R.id.nav_help -> { /* Ayuda */ }
             }
             drawerLayout.closeDrawer(GravityCompat.START)
             true
         }
 
-        // Flechas de scroll manual
+        // Flechas de scroll manual para las listas horizontales
         findViewById<ImageView>(R.id.arrow_eventos_actuales).setOnClickListener {
             actualesRecycler.smoothScrollBy(500, 0)
         }
@@ -76,33 +84,41 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerViews() {
+        // Vertical (Destacados)
         destacadosRecycler = findViewById(R.id.eventos_recyclerview)
         destacadosRecycler.layoutManager = LinearLayoutManager(this)
 
+        // Horizontal (Actuales)
         actualesRecycler = findViewById(R.id.eventos_actuales_recyclerview)
         actualesRecycler.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
+        // Horizontal (Internacionales)
         internacionalesRecycler = findViewById(R.id.mas_eventos_recyclerview)
         internacionalesRecycler.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
     }
 
+    /**
+     * Obtiene los eventos de la API y los filtra por categoría
+     */
     private fun fetchEventos() {
-        // Ejecutamos en segundo plano
         lifecycleScope.launch {
             try {
                 val listaEventos = RetrofitClient.instance.getEventos()
 
                 if (listaEventos.isNotEmpty()) {
-                    // 1. Destacados (ej. los primeros 3)
-                    destacadosRecycler.adapter = EventAdapter(listaEventos.take(3))
+                    // 1. Destacados: Filtramos por el string exacto que definiste en el backend
+                    val destacados = listaEventos.filter { it.categoria.equals("DESTACADO", ignoreCase = true) }
+                    destacadosRecycler.adapter = EventAdapter(destacados)
 
-                    // 2. Actuales (ej. los que son en Madrid)
-                    val locales = listaEventos.filter { it.location.contains("Madrid", ignoreCase = true) }
-                    actualesRecycler.adapter = EventAdapter(locales)
+                    // 2. Actuales
+                    val actuales = listaEventos.filter { it.categoria.equals("ACTUAL", ignoreCase = true) }
+                    actualesRecycler.adapter = EventAdapter(actuales)
 
-                    // 3. Internacionales (ej. los que NO son en Madrid)
-                    val internacionales = listaEventos.filter { !it.location.contains("Madrid", ignoreCase = true) }
+                    // 3. Internacionales
+                    val internacionales = listaEventos.filter { it.categoria.equals("INTERNACIONAL", ignoreCase = true) }
                     internacionalesRecycler.adapter = EventAdapter(internacionales)
+                } else {
+                    Log.d("API_INFO", "La lista de eventos está vacía")
                 }
 
             } catch (e: Exception) {
