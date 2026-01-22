@@ -11,45 +11,43 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Tickets4U">
-
-        <!-- Carrito -->
         <activity
-            android:name=".ui.cart.CartActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-
-
-        <!-- Pago -->
-        <activity
-            android:name=".eventos.ui.payment.PaymentActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-
-        <activity
-            android:name=".eventos.ui.payment.PaymentSuccessActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-
-        <activity
-            android:name=".eventos.ui.payment.PaymentLoadingActivity"
+            android:name=".RegisterActivity"
             android:exported="false" />
-
-
-
         <activity
-            android:name=".DatosDeEventoActivity"
+            android:name=".LoadingActivity"
             android:exported="false" />
-
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity
+            android:name=".ui.cart.CartActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" /> <!-- Pago -->
+        <activity
+            android:name=".eventos.ui.payment.PaymentActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".eventos.ui.payment.PaymentSuccessActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".eventos.ui.payment.PaymentLoadingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DatosDeEventoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+        <activity
             android:name=".PaginaCompraActivity"
             android:exported="false" />
-
     </application>
 
 </manifest>
