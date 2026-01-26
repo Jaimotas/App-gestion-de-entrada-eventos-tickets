@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- ✅ ESTA LÍNEA SOLUCIONA TODO -->
+    <uses-sdk tools:overrideLibrary="com.android.car.ui" />
 
     <application
         android:allowBackup="true"
@@ -29,6 +31,9 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
 
+        <activity
+            android:name=".eventos.ui.payment.PaymentLoadingActivity"
+            android:exported="false" />
 
         <activity
             android:name=".DatosDeEventoActivity"

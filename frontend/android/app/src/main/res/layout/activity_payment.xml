@@ -14,6 +14,25 @@
         <TextView
             android:id="@+id/txtTitulo"
             android:layout_width="wrap_content"
+        android:padding="0dp">
+
+        <!-- FLECHA ATRÁS - SOLA ARRIBA IZQUIERDA -->
+        <ImageButton
+            android:id="@+id/btnAtras"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@android:drawable/ic_menu_revert"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Volver"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="8dp" />
+
+        <!-- TÍTULO CENTRADO COMPLETO -->
+        <TextView
+            android:id="@+id/txtTitulo"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Datos de pago"
             android:textSize="28sp"
@@ -23,6 +42,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="32dp" />
 
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="110dp"
+            android:layout_marginEnd="72dp" />
         <!-- Total -->
         <TextView
             android:id="@+id/txtTotalPago"
@@ -86,6 +108,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:hint="Fecha caducidad (MM/AA)">
+            android:hint="Fecha caducidad (MM/AA)"
+            app:errorEnabled="true">
 
             <EditText
                 android:id="@+id/edtFecha"
