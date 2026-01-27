@@ -8,14 +8,28 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Crear Nuevo Evento"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp">
+
+            <ImageButton
+                android:id="@+id/btnVolverDialog"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@android:drawable/ic_menu_revert"
+                android:contentDescription="Cerrar" />
+
+            <TextView
+                android:id="@+id/tvTituloDialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Crear Nuevo Evento"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
 
         <EditText android:id="@+id/etNombre" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Nombre del evento" />
         <EditText android:id="@+id/etDescripcion" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Descripción" android:inputType="textMultiLine" />
@@ -37,6 +51,5 @@
             android:layout_height="60dp"
             android:text="CREAR EVENTO"
             android:layout_marginTop="20dp"
-            android:backgroundTint="@color/blue"/>
-    </LinearLayout>
+            android:backgroundTint="#2196F3"/> </LinearLayout>
 </ScrollView>
