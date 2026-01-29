@@ -22,10 +22,17 @@ class CrearEventoDialogFragment(
 
     override fun onStart() {
         super.onStart()
-        dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        dialog?.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         val view = inflater.inflate(R.layout.dialog_crear_evento, container, false)
 
         // Referencias
@@ -103,6 +110,7 @@ class CrearEventoDialogFragment(
                 }
             }
         }
+
         return view
     }
 
@@ -110,9 +118,29 @@ class CrearEventoDialogFragment(
         val c = Calendar.getInstance()
         DatePickerDialog(requireContext(), { _, year, month, day ->
             TimePickerDialog(requireContext(), { _, hour, minute ->
-                val fecha = String.format("%04d-%02d-%02dT%02d:%02d:00", year, month + 1, day, hour, minute)
+                val fecha = String.format(
+                    "%04d-%02d-%02dT%02d:%02d:00",
+                    year, month + 1, day, hour, minute
+                )
                 onFechaLista(fecha)
             }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true).show()
         }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show()
+    }
+
+    private fun enviarEvento(evento: Event) {
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitClient.instance.crearEvento(evento)
+                if (response.isSuccessful) {
+                    Toast.makeText(context, "Evento creado", Toast.LENGTH_SHORT).show()
+                    onEventoCreado?.invoke()
+                    dismiss()
+                } else {
+                    Toast.makeText(context, "Error ${response.code()}", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context, "Error de red", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

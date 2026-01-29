@@ -59,6 +59,12 @@
         <activity
             android:name=".PaginaCompraActivity"
             android:exported="false" />
+        <activity
+            android:name=".TicketDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TicketWallet"
+            android:exported="false" />
 
     </application>
 
