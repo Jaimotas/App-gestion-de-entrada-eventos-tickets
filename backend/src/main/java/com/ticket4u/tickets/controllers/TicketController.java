@@ -26,20 +26,17 @@ public class TicketController {
             Integer eventoId = Integer.valueOf(partes[0]);
             Integer usuarioId = Integer.valueOf(partes[1]);
             
-            // Busca activo
             Optional<Ticket> ticketActivo = ticketRepository.findByEventoIdAndUsuarioIdAndEstado(eventoId, usuarioId, "activo");
             
             if (ticketActivo.isEmpty()) {
-                // Chequea usado/cancelado
                 Optional<Ticket> cualquierTicket = ticketRepository.findByEventoIdAndUsuarioId(eventoId, usuarioId);
                 if (cualquierTicket.isPresent()) {
-                    String estado = cualquierTicket.get().getEstado();
+                    String estado = cualquierTicket.get().getEstado() != null ? cualquierTicket.get().getEstado() : "desconocido";
                     return ResponseEntity.ok("{\"status\":\"" + estado.toUpperCase() + "\"}");
                 }
                 return ResponseEntity.badRequest().body("{\"status\":\"INVALIDO\"}");
             }
             
-            // Marca usado
             Ticket ticket = ticketActivo.get();
             ticket.setEstado("usado");
             ticketRepository.save(ticket);
@@ -51,3 +48,4 @@ public class TicketController {
         }
     }
 }
+
