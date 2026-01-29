@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.tickets4u</groupId>
-	<artifactId>events</artifactId>
+	<artifactId>login-registro</artifactId>
 	<version>0.0.1</version>
 	<name>backend</name>
 	<description>Backend tickets4u</description>
@@ -120,8 +120,7 @@
 		<dependency>
 		    <groupId>jakarta.persistence</groupId>
 		    <artifactId>jakarta.persistence-api</artifactId>
-		</dependency>
-
+		</dependency>	
 	</dependencies>
 
 	<build>

@@ -1,4 +1,4 @@
-package com.tickets4u.events.models;
+package com.tickets4u.models;
 
 import jakarta.persistence.*;
 
@@ -12,14 +12,17 @@ public class Usuario {
     @Column(name = "nombre_usuario", unique = true)
     private String nombreUsuario;
     
+    @Column(unique = true, nullable = false)
     private String email;
+
+    @Column(nullable = false)
     private String contrasena;
     
     @Enumerated(EnumType.STRING)
     private Rol rol;
     
     public enum Rol {
-        ADMIN, ORGANIZER, ATTENDEE
+        ADMIN, CLIENTE
     }
     
     public Usuario() {}
